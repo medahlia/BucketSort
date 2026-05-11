@@ -6,7 +6,6 @@ final class BucketSortTests: XCTestCase {
     let defaultBucketCount = numberOfBuckets(for: 5)
     let defaultThreadCount = 4
 
-    // MARK: - Sequential
 
     func testSequentialBucketSort() {
         let array = [5, 1, 8, 3, 2]
@@ -34,7 +33,6 @@ final class BucketSortTests: XCTestCase {
         XCTAssertEqual(sequentialBucketSort(array, bucketCount: numberOfBuckets(for: array.count)), [1, 3, 5, 7, 9])
     }
 
-    // MARK: - Parallel (різна к-сть потоків)
 
     func testParallelBucketSort2Threads() {
         let array = [10, 7, 2, 15, 1]
@@ -70,8 +68,6 @@ final class BucketSortTests: XCTestCase {
         XCTAssertEqual(parallelBucketSort(array, bucketCount: numberOfBuckets(for: array.count), threadCount: 4), [1, 3, 5, 7, 9])
     }
 
-    // MARK: - Різна к-сть бакетів
-
     func testSqrtNBuckets() {
         let array = generateRandomArray(size: 10_000)
         let buckets = numberOfBuckets(for: array.count)
@@ -88,11 +84,8 @@ final class BucketSortTests: XCTestCase {
         XCTAssertEqual(seq, par)
     }
 
-    // MARK: - Seq == Par для всіх комбінацій
-
     func testSeqEqualParAllCombinations() {
         let array = generateRandomArray(size: 10_000)
-
         for threadCount in [2, 4, 8] {
             for bucketCount in [numberOfBuckets(for: array.count), numberOfBucketsDouble(for: array.count)] {
                 let seq = sequentialBucketSort(array, bucketCount: bucketCount)
