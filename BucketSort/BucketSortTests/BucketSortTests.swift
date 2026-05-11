@@ -1,5 +1,4 @@
 import XCTest
-@testable import BucketSort
 
 
 final class BucketSortTests: XCTestCase {
@@ -47,4 +46,13 @@ final class BucketSortTests: XCTestCase {
         let par = parallelBucketSort(array)
         XCTAssertEqual(seq, par)
     }
+    
+//    func testParallelCorrectnessStress() {
+//        for _ in 0..<1000 {
+//            let array = generateRandomArray(size: 1_000_000)
+//            let seq = sequentialBucketSort(array)
+//            let par = parallelBucketSort(array)
+//            XCTAssertEqual(seq, par) // може впасти або зависнути
+//        }
+//    }
 }
