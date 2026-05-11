@@ -21,6 +21,7 @@
 /* Begin PBXFileReference section */
 		F4EF33582FB1C9A600601425 /* BucketSort */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BucketSort; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4EF33672FB1D50E00601425 /* BucketSortTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BucketSortTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4EF33752FB2099400601425 /* results.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = results.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -71,6 +72,7 @@
 		F4EF334F2FB1C9A600601425 = {
 			isa = PBXGroup;
 			children = (
+				F4EF33752FB2099400601425 /* results.txt */,
 				F4EF335A2FB1C9A600601425 /* BucketSort */,
 				F4EF33682FB1D50E00601425 /* BucketSortTests */,
 				F4EF33592FB1C9A600601425 /* Products */,
