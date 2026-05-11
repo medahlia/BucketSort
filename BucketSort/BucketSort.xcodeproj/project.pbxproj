@@ -20,18 +20,44 @@
 
 /* Begin PBXFileReference section */
 		F4EF33582FB1C9A600601425 /* BucketSort */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BucketSort; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4EF33672FB1D50E00601425 /* BucketSortTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BucketSortTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F4EF33712FB1D69000601425 /* Exceptions for "BucketSort" folder in "BucketSortTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				BucketSort.swift,
+			);
+			target = F4EF33662FB1D50E00601425 /* BucketSortTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F4EF335A2FB1C9A600601425 /* BucketSort */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F4EF33712FB1D69000601425 /* Exceptions for "BucketSort" folder in "BucketSortTests" target */,
+			);
 			path = BucketSort;
+			sourceTree = "<group>";
+		};
+		F4EF33682FB1D50E00601425 /* BucketSortTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BucketSortTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F4EF33552FB1C9A600601425 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4EF33642FB1D50E00601425 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				F4EF335A2FB1C9A600601425 /* BucketSort */,
+				F4EF33682FB1D50E00601425 /* BucketSortTests */,
 				F4EF33592FB1C9A600601425 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				F4EF33582FB1C9A600601425 /* BucketSort */,
+				F4EF33672FB1D50E00601425 /* BucketSortTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,6 +110,28 @@
 			productReference = F4EF33582FB1C9A600601425 /* BucketSort */;
 			productType = "com.apple.product-type.tool";
 		};
+		F4EF33662FB1D50E00601425 /* BucketSortTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4EF336B2FB1D50F00601425 /* Build configuration list for PBXNativeTarget "BucketSortTests" */;
+			buildPhases = (
+				F4EF33632FB1D50E00601425 /* Sources */,
+				F4EF33642FB1D50E00601425 /* Frameworks */,
+				F4EF33652FB1D50E00601425 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F4EF33682FB1D50E00601425 /* BucketSortTests */,
+			);
+			name = BucketSortTests;
+			packageProductDependencies = (
+			);
+			productName = BucketSortTests;
+			productReference = F4EF33672FB1D50E00601425 /* BucketSortTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -93,6 +143,9 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					F4EF33572FB1C9A600601425 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					F4EF33662FB1D50E00601425 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -112,12 +165,30 @@
 			projectRoot = "";
 			targets = (
 				F4EF33572FB1C9A600601425 /* BucketSort */,
+				F4EF33662FB1D50E00601425 /* BucketSortTests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		F4EF33652FB1D50E00601425 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F4EF33542FB1C9A600601425 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4EF33632FB1D50E00601425 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -263,6 +334,34 @@
 			};
 			name = Release;
 		};
+		F4EF336C2FB1D50F00601425 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.medahlia.BucketSortTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F4EF336D2FB1D50F00601425 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.medahlia.BucketSortTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -280,6 +379,15 @@
 			buildConfigurations = (
 				F4EF33602FB1C9A600601425 /* Debug */,
 				F4EF33612FB1C9A600601425 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4EF336B2FB1D50F00601425 /* Build configuration list for PBXNativeTarget "BucketSortTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4EF336C2FB1D50F00601425 /* Debug */,
+				F4EF336D2FB1D50F00601425 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,70 +1,70 @@
 import Foundation
 import Dispatch
 
-func generateRandomArray(size: Int) -> [Int] {
-    return (0..<size).map { _ in Int.random(in: 0...1_000_000_000) }
-}
+//func generateRandomArray(size: Int) -> [Int] {
+//    return (0..<size).map { _ in Int.random(in: 0...1_000_000_000) }
+//}
+//
+//func numberOfBuckets(for size: Int) -> Int {
+//    return Int(Double(size).squareRoot())
+//}
 
-func numberOfBuckets(for size: Int) -> Int {
-    return Int(Double(size).squareRoot())
-}
+//func sequentialBucketSort(_ array: [Int]) -> [Int] {
+//    guard !array.isEmpty else { return array }
+//    let numberOfBuckets = numberOfBuckets(for: array.count)
+//    let minValue = array.min()!
+//    let maxValue = array.max()!
+//    var buckets: [[Int]] = Array(repeating: [], count: numberOfBuckets)
+//    
+//    for element in array {
+//        let bucketIndex = Int(Double(element - minValue) / Double(maxValue - minValue + 1) * Double(numberOfBuckets))
+//        buckets[bucketIndex].append(element)
+//    }
+//    
+//    for i in 0..<numberOfBuckets {
+//        buckets[i].sort()
+//    }
+//    
+//    var sortedArray: [Int] = []
+//    for bucket in buckets {
+//        sortedArray.append(contentsOf: bucket)
+//    }
+//    return sortedArray
+//}
 
-func sequentialBucketSort(_ array: [Int]) -> [Int] {
-    guard !array.isEmpty else { return array }
-    let numberOfBuckets = numberOfBuckets(for: array.count)
-    let minValue = array.min()!
-    let maxValue = array.max()!
-    var buckets: [[Int]] = Array(repeating: [], count: numberOfBuckets)
-    
-    for element in array {
-        let bucketIndex = Int(Double(element - minValue) / Double(maxValue - minValue + 1) * Double(numberOfBuckets))
-        buckets[bucketIndex].append(element)
-    }
-    
-    for i in 0..<numberOfBuckets {
-        buckets[i].sort()
-    }
-    
-    var sortedArray: [Int] = []
-    for bucket in buckets {
-        sortedArray.append(contentsOf: bucket)
-    }
-    return sortedArray
-}
-
-func parallelBucketSort(_ array: [Int]) -> [Int] {
-    guard !array.isEmpty else { return array }
-    let numberOfBuckets = numberOfBuckets(for: array.count)
-    let minValue = array.min()!
-    let maxValue = array.max()!
-    var buckets: [[Int]] = Array(repeating: [], count: numberOfBuckets)
-    let lock = NSLock()
-    
-    for element in array {
-        let bucketIndex = Int(Double(element - minValue) / Double(maxValue - minValue + 1) * Double(numberOfBuckets))
-        lock.lock()
-        buckets[bucketIndex].append(element)
-        lock.unlock()
-    }
-    
-    let queue = DispatchQueue.global(qos: .userInitiated)
-    let group = DispatchGroup()
-    
-    for i in 0..<numberOfBuckets {
-        group.enter()
-        queue.async {
-            buckets[i].sort()
-            group.leave()
-        }
-    }
-    group.wait()
-    
-    var sortedArray: [Int] = []
-    for bucket in buckets {
-        sortedArray.append(contentsOf: bucket)
-    }
-    return sortedArray
-}
+//func parallelBucketSort(_ array: [Int]) -> [Int] {
+//    guard !array.isEmpty else { return array }
+//    let numberOfBuckets = numberOfBuckets(for: array.count)
+//    let minValue = array.min()!
+//    let maxValue = array.max()!
+//    var buckets: [[Int]] = Array(repeating: [], count: numberOfBuckets)
+//    let lock = NSLock()
+//    
+//    for element in array {
+//        let bucketIndex = Int(Double(element - minValue) / Double(maxValue - minValue + 1) * Double(numberOfBuckets))
+//        lock.lock()
+//        buckets[bucketIndex].append(element)
+//        lock.unlock()
+//    }
+//    
+//    let queue = DispatchQueue.global(qos: .userInitiated)
+//    let group = DispatchGroup()
+//    
+//    for i in 0..<numberOfBuckets {
+//        group.enter()
+//        queue.async {
+//            buckets[i].sort()
+//            group.leave()
+//        }
+//    }
+//    group.wait()
+//    
+//    var sortedArray: [Int] = []
+//    for bucket in buckets {
+//        sortedArray.append(contentsOf: bucket)
+//    }
+//    return sortedArray
+//}
 
 func benchmark(size: Int, runs: Int = 5) -> (Int, Double, Double) {
     let numBuckets = numberOfBuckets(for: size)
@@ -81,8 +81,10 @@ func benchmark(size: Int, runs: Int = 5) -> (Int, Double, Double) {
     var parTimes: [Double] = []
     
     for i in 1...runs {
-        let seqTime = measureTime(message: "Seq run \(i)") { _ = sequentialBucketSort(array) }
+//        спочатку йде паралельний, потім послідовний
         let parTime = measureTime(message: "Par run \(i)") { _ = parallelBucketSort(array) }
+        let seqTime = measureTime(message: "Seq run \(i)") { _ = sequentialBucketSort(array) }
+        
         seqTimes.append(seqTime)
         parTimes.append(parTime)
     }
