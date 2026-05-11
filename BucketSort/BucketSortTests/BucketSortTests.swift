@@ -1,35 +1,50 @@
-//
-//  BucketSortTests.swift
-//  BucketSortTests
-//
-//  Created by Home on 11.05.2026.
-//
-
 import XCTest
+@testable import BucketSort
+
 
 final class BucketSortTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    func testSequentialBucketSort() {
+        let array = [5, 1, 8, 3, 2]
+        let result = sequentialBucketSort(array)
+        XCTAssertEqual(result, [1, 2, 3, 5, 8])
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testParallelBucketSort() {
+        let array = [10, 7, 2, 15, 1]
+        let result = parallelBucketSort(array)
+        XCTAssertEqual(result, [1, 2, 7, 10, 15])
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testEmptyArray() {
+        let array: [Int] = []
+        XCTAssertEqual(sequentialBucketSort(array), [])
+        XCTAssertEqual(parallelBucketSort(array), [])
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testSingleElementArray() {
+        let array = [42]
+        XCTAssertEqual(sequentialBucketSort(array), [42])
+        XCTAssertEqual(parallelBucketSort(array), [42])
     }
-
+    
+    func testAlreadySortedArray() {
+        let array = [1, 2, 3, 4, 5]
+        XCTAssertEqual(sequentialBucketSort(array), array)
+        XCTAssertEqual(parallelBucketSort(array), array)
+    }
+    
+    func testReverseSortedArray() {
+        let array = [9, 7, 5, 3, 1]
+        let expected = [1, 3, 5, 7, 9]
+        XCTAssertEqual(sequentialBucketSort(array), expected)
+        XCTAssertEqual(parallelBucketSort(array), expected)
+    }
+    
+    func testRandomArraysEquality() {
+        let array = generateRandomArray(size: 10_000)
+        let seq = sequentialBucketSort(array)
+        let par = parallelBucketSort(array)
+        XCTAssertEqual(seq, par)
+    }
 }

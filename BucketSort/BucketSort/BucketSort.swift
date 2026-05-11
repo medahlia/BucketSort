@@ -9,7 +9,7 @@ import Foundation
 import Dispatch
 
 
-func sequentialBucketSort(_ array: [Int]) -> [Int] {
+public func sequentialBucketSort(_ array: [Int]) -> [Int] {
     guard !array.isEmpty else { return array }
 
     let bucketCount = numberOfBuckets(for: array.count)
@@ -41,7 +41,7 @@ func sequentialBucketSort(_ array: [Int]) -> [Int] {
     return sortedArray
 }
 
-func parallelBucketSort(_ array: [Int]) -> [Int] {
+public func parallelBucketSort(_ array: [Int]) -> [Int] {
     guard !array.isEmpty else { return array }
 
     let bucketCount = numberOfBuckets(for: array.count)

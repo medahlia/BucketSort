@@ -8,10 +8,10 @@
 import Foundation
 
 
-func generateRandomArray(size: Int) -> [Int] {
+public func generateRandomArray(size: Int) -> [Int] {
     return (0..<size).map { _ in Int.random(in: 0...1_000_000_000) }
 }
 
-func numberOfBuckets(for size: Int) -> Int {
+public func numberOfBuckets(for size: Int) -> Int {
     return Int(Double(size).squareRoot())
 }

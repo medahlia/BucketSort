@@ -27,6 +27,7 @@
 		F4EF33712FB1D69000601425 /* Exceptions for "BucketSort" folder in "BucketSortTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				ArrayGenerator.swift,
 				BucketSort.swift,
 			);
 			target = F4EF33662FB1D50E00601425 /* BucketSortTests */;
