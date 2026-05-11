@@ -15,3 +15,7 @@ public func generateRandomArray(size: Int) -> [Int] {
 public func numberOfBuckets(for size: Int) -> Int {
     return Int(Double(size).squareRoot())
 }
+
+public func numberOfBucketsDouble(for size: Int) -> Int {
+    return Int(2.0 * Double(size).squareRoot())
+}

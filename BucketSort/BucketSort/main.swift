@@ -10,65 +10,149 @@ func measureTime(message: String, operation: () -> Void) -> Double {
     return elapsedTime
 }
 
-
-
-func benchmark(size: Int, runs: Int = 5) -> (Int, Double, Double) {
-    let numBuckets = numberOfBuckets(for: size)
-    let array = generateRandomArray(size: size)
-    print("\n=== Розмір: \(size), Комірок: \(numBuckets) ===")
-    
-    // Warm-up
-    for _ in 0..<3 {
-        _ = sequentialBucketSort(array)
-        _ = parallelBucketSort(array)
+// MARK: - Bucket strategy labels
+ 
+enum BucketStrategy: CaseIterable {
+    case sqrtN
+    case doubleSqrtN
+ 
+    func label() -> String {
+        switch self {
+        case .sqrtN:       return "√N"
+        case .doubleSqrtN: return "2·√N"
+        }
     }
-    
+ 
+    func count(for size: Int) -> Int {
+        switch self {
+        case .sqrtN:       return numberOfBuckets(for: size)
+        case .doubleSqrtN: return numberOfBucketsDouble(for: size)
+        }
+    }
+}
+ 
+// MARK: - Result type
+ 
+struct BenchmarkResult {
+    let size: Int
+    let bucketStrategy: String
+    let bucketCount: Int
+    let threadCount: Int
+    let seqAvg: Double
+    let parAvg: Double
+    var speedup: Double { seqAvg / parAvg }
+}
+ 
+// MARK: - Benchmark
+ 
+func benchmark(
+    size: Int,
+    bucketStrategy: BucketStrategy,
+    threadCount: Int,
+    runs: Int = 5
+) -> BenchmarkResult {
+ 
+    let bucketCount = bucketStrategy.count(for: size)
+    let array = generateRandomArray(size: size)
+ 
+    print("\n┌─────────────────────────────────────────────────────────")
+    print("│ Розмір: \(size)  │  Бакети: \(bucketCount) (\(bucketStrategy.label()))  │  Потоки: \(threadCount)")
+    print("├─────────────────────────────────────────────────────────")
+ 
+    // Warm-up
+    print("  [Warm-up]")
+    //for w in 1...3 {
+        _ = sequentialBucketSort(array, bucketCount: bucketCount)
+        _ = parallelBucketSort(array, bucketCount: bucketCount, threadCount: threadCount)
+    //    print("  Warm-up \(w)/3 done")
+    print("  Warm-up done")
+    //}
+    print("  ─────────────────────────────────")
+ 
     var seqTimes: [Double] = []
     var parTimes: [Double] = []
-    
+ 
     for i in 1...runs {
-//        спочатку йде паралельний, потім послідовний
-        let parTime = measureTime(message: "Par run \(i)") { _ = parallelBucketSort(array) }
-        let seqTime = measureTime(message: "Seq run \(i)") { _ = sequentialBucketSort(array) }
-        
+        print("  [Run \(i)/\(runs)]")
+        let seqTime = measureTime(message: "Seq run \(i)") {
+            _ = sequentialBucketSort(array, bucketCount: bucketCount)
+        }
+        let parTime = measureTime(message: "Par run \(i)") {
+            _ = parallelBucketSort(array, bucketCount: bucketCount, threadCount: threadCount)
+        }
         seqTimes.append(seqTime)
         parTimes.append(parTime)
     }
-    
+ 
     let avgSeq = seqTimes.reduce(0, +) / Double(runs)
     let avgPar = parTimes.reduce(0, +) / Double(runs)
-    let speedup = avgSeq / avgPar
-    
-    return (numBuckets, avgSeq, avgPar)
+ 
+    print("  ─────────────────────────────────")
+    print("  Середнє Seq: \(String(format: "%.3f", avgSeq)) с")
+    print("  Середнє Par: \(String(format: "%.3f", avgPar)) с")
+    print("  Прискорення: \(String(format: "%.2f", avgSeq / avgPar))x")
+    print("└─────────────────────────────────────────────────────────")
+ 
+    return BenchmarkResult(
+        size: size,
+        bucketStrategy: bucketStrategy.label(),
+        bucketCount: bucketCount,
+        threadCount: threadCount,
+        seqAvg: avgSeq,
+        parAvg: avgPar
+    )
 }
 
 
-
-func printTable(results: [(size: Int, buckets: Int, seqAvg: Double, parAvg: Double, speedup: Double)]) {
-    print("\n| Розмір | Комірок | Seq (с) | Par (с) | Прискорення |")
-    print("|--------|---------|---------|---------|-------------|")
+// MARK: - Table output
+ 
+func printTable(results: [BenchmarkResult]) {
+    let header = "| Розмір      | Бакети      | К-ть бакетів | Потоки | Seq (с) | Par (с) | Прискорення |"
+    let divider = String(repeating: "-", count: header.count)
+    print("\n\(divider)")
+    print(header)
+    print(divider)
     for r in results {
-        print("| \(r.size) | \(r.buckets) | \(String(format: "%.3f", r.seqAvg)) | \(String(format: "%.3f", r.parAvg)) | \(String(format: "%.2f", r.speedup))x |")
+        let size    = "\(r.size)".padding(toLength: 11, withPad: " ", startingAt: 0)
+        let strat   = r.bucketStrategy.padding(toLength: 11, withPad: " ", startingAt: 0)
+        let buckets = "\(r.bucketCount)".padding(toLength: 12, withPad: " ", startingAt: 0)
+        let threads = "\(r.threadCount)".padding(toLength: 6, withPad: " ", startingAt: 0)
+        let seq     = String(format: "%.3f", r.seqAvg).padding(toLength: 7, withPad: " ", startingAt: 0)
+        let par     = String(format: "%.3f", r.parAvg).padding(toLength: 7, withPad: " ", startingAt: 0)
+        let spd     = String(format: "%.2f", r.speedup) + "x"
+        print("| \(size) | \(strat) | \(buckets) | \(threads) | \(seq) | \(par) | \(spd.padding(toLength: 11, withPad: " ", startingAt: 0)) |")
+    }
+    print(divider)
+}
+
+
+// MARK: - Run
+ 
+let sizes       = [1_000_000, 5_000_000, 10_000_000, 20_000_000, 30_000_000]
+let threadCounts = [2, 4, 8, 16]
+let strategies  = BucketStrategy.allCases
+ 
+var allResults: [BenchmarkResult] = []
+ 
+for size in sizes {
+    for strategy in strategies {
+        for threads in threadCounts {
+            let result = benchmark(
+                size: size,
+                bucketStrategy: strategy,
+                threadCount: threads
+            )
+            allResults.append(result)
+        }
     }
 }
-
-var allResults: [(size: Int, buckets: Int, seqAvg: Double, parAvg: Double, speedup: Double)] = []
-
-//let sizes = [1_000_000, 5_000_000, 10_000_000]
-//let sizes = [20_000_000, 30_000_000]
-let sizes = [100_000]
-for size in sizes {
-    let (buckets, seqAvg, parAvg) = benchmark(size: size)
-    let speedup = seqAvg / parAvg
-    allResults.append((size, buckets, seqAvg, parAvg, speedup))
-}
-
+ 
 printTable(results: allResults)
 
 
 /*
  
- === Розмір: 1000000, Комірок: 1000 ===
+ === Розмір: 1 000 000, Комірок: 1000 ===
  Seq run 1: 1.621 с
  Par run 1: 0.859 с
  Seq run 2: 1.466 с
@@ -113,7 +197,7 @@ printTable(results: allResults)
  
  
  
- === Розмір: 20000000, Комірок: 4472 ===
+ === Розмір: 20 000 000, Комірок: 4472 ===
  Seq run 1: 22.764 с
  Par run 1: 8.234 с
  Seq run 2: 22.939 с
@@ -125,7 +209,7 @@ printTable(results: allResults)
  Seq run 5: 23.680 с
  Par run 5: 8.247 с
 
- === Розмір: 30000000, Комірок: 5477 ===
+ === Розмір: 30 000 000, Комірок: 5477 ===
  Seq run 1: 42.154 с
  Par run 1: 13.689 с
  Seq run 2: 39.766 с

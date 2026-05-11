@@ -9,10 +9,10 @@ import Foundation
 import Dispatch
 
 
-public func sequentialBucketSort(_ array: [Int]) -> [Int] {
+public func sequentialBucketSort(_ array: [Int], bucketCount: Int) -> [Int] {
     guard !array.isEmpty else { return array }
 
-    let bucketCount = numberOfBuckets(for: array.count)
+//    let bucketCount = numberOfBuckets(for: array.count)
     let minValue = array.min()!
     let maxValue = array.max()!
 
@@ -41,10 +41,10 @@ public func sequentialBucketSort(_ array: [Int]) -> [Int] {
     return sortedArray
 }
 
-public func parallelBucketSort(_ array: [Int]) -> [Int] {
+public func parallelBucketSort(_ array: [Int], bucketCount: Int, threadCount: Int) -> [Int] {
     guard !array.isEmpty else { return array }
 
-    let bucketCount = numberOfBuckets(for: array.count)
+//    let bucketCount = numberOfBuckets(for: array.count)
     let minValue = array.min()!
     let maxValue = array.max()!
 
@@ -64,14 +64,29 @@ public func parallelBucketSort(_ array: [Int]) -> [Int] {
         lock.unlock()
     }
 
+//    let queue = DispatchQueue.global(qos: .userInitiated)
+//    let group = DispatchGroup()
+//
+//    for i in 0..<bucketCount {
+//        group.enter()
+//
+//        queue.async {
+//            buckets[i].sort()
+//            group.leave()
+//        }
+//    }
+    
     let queue = DispatchQueue.global(qos: .userInitiated)
     let group = DispatchGroup()
-
+    let semaphore = DispatchSemaphore(value: threadCount)
+    
     for i in 0..<bucketCount {
         group.enter()
-
+        semaphore.wait()
+        
         queue.async {
             buckets[i].sort()
+            semaphore.signal()
             group.leave()
         }
     }
