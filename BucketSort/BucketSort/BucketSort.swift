@@ -12,7 +12,6 @@ import Dispatch
 public func sequentialBucketSort(_ array: [Int], bucketCount: Int) -> [Int] {
     guard !array.isEmpty else { return array }
 
-//    let bucketCount = numberOfBuckets(for: array.count)
     let minValue = array.min()!
     let maxValue = array.max()!
 
