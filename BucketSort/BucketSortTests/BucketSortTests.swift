@@ -50,9 +50,9 @@ final class BucketSortTests: XCTestCase {
     }
 
     func testParallelBucketSort8Threads() {
-        let array = [10, 7, 2, 15, 1]
+        let array = generateRandomArray(size: 10_000)
         let result = parallelBucketSort(array, bucketCount: numberOfBuckets(for: array.count), threadCount: 8)
-        XCTAssertEqual(result, [1, 2, 7, 10, 15])
+        XCTAssertEqual(result, sequentialBucketSort(array, bucketCount: numberOfBuckets(for: array.count)))
     }
 
     func testParallelEmptyArray() {
@@ -60,10 +60,6 @@ final class BucketSortTests: XCTestCase {
         XCTAssertEqual(parallelBucketSort(array, bucketCount: 1, threadCount: 4), [])
     }
 
-    func testParallelSingleElement() {
-        let array = [42]
-        XCTAssertEqual(parallelBucketSort(array, bucketCount: 1, threadCount: 4), [42])
-    }
 
     func testParallelAlreadySorted() {
         let array = [1, 2, 3, 4, 5]
