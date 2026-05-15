@@ -113,7 +113,8 @@ func printTable(results: [BenchmarkResult]) {
     print(divider)
 }
 
-let sizes = [1_000_000, 5_000_000, 10_000_000, 20_000_000]
+//let sizes = [1_000_000, 5_000_000, 10_000_000, 20_000_000]
+let sizes = [1_000_000]
 let threadCounts = [2, 4, 8, 16]
 let strategies = BucketStrategy.allCases
  
