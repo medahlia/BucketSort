@@ -3,12 +3,10 @@ import XCTest
 
 final class BucketSortTests: XCTestCase {
 
-    // Хелпер для створення тестових об'єктів
     private func items(_ ids: [Int]) -> [SortableItem] {
         return ids.map { SortableItem(id: $0, name: "item_\($0)", score: Double($0)) }
     }
 
-    // Хелпер для отримання ids з результату
     private func ids(_ items: [SortableItem]) -> [Int] {
         return items.map { $0.id }
     }
@@ -76,8 +74,6 @@ final class BucketSortTests: XCTestCase {
         XCTAssertEqual(ids(parallelBucketSort(array, bucketCount: numberOfBuckets(for: array.count), threadCount: 4)), [1, 3, 5, 7, 9])
     }
 
-    // MARK: - Bucket strategies
-
     func testSqrtNBuckets() {
         let array = generateRandomArray(size: 10_000)
         let buckets = numberOfBuckets(for: array.count)
@@ -108,8 +104,6 @@ final class BucketSortTests: XCTestCase {
             }
         }
     }
-
-    // MARK: - Перевірка що об'єкти не втрачаються
 
     func testObjectsNotLost() {
         let array = generateRandomArray(size: 1_000)
