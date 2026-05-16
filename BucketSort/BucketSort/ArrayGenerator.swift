@@ -1,8 +1,14 @@
 import Foundation
 
 
-public func generateRandomArray(size: Int) -> [Int] {
-    return (0..<size).map { _ in Int.random(in: 0...1_000_000_000) }
+public func generateRandomArray(size: Int) -> [SortableItem] {
+    return (0..<size).map { i in
+        SortableItem(
+            id: Int.random(in: 0...100_000_000),
+            name: "item_\(i)",
+            score: Double.random(in: 0...100_000_000)
+        )
+    }
 }
 
 public func numberOfBuckets(for size: Int) -> Int {

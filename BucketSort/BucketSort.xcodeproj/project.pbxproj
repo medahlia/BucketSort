@@ -30,6 +30,7 @@
 			membershipExceptions = (
 				ArrayGenerator.swift,
 				BucketSort.swift,
+				SortableItem.swift,
 			);
 			target = F4EF33662FB1D50E00601425 /* BucketSortTests */;
 		};
