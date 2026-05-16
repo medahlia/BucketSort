@@ -4,9 +4,9 @@ import Foundation
 public func generateRandomArray(size: Int) -> [SortableItem] {
     return (0..<size).map { i in
         SortableItem(
-            id: Int.random(in: 0...100_000_000_000), // може змінити (?)
+            id: Int.random(in: 0...100_000_000), // може змінити (?)
             name: "item_\(i)",
-            score: Double.random(in: 0...100_000_000_000) //
+            score: Double.random(in: 0...100_000_000) //
         )
     }
 }
